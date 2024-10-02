@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidateData } from "../utils/validate";
 
 const Login = () => {
-  const [isSignInForm, setIsSignInForm] = useState();
+  const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMsg,setErrorMsg]=useState(null);
+        const email=useRef(null);
+        const password=useRef(null);
+  const handleBtnClick=()=>{
+    const message=checkValidateData(email.current.value,password.current.value);
+    // console.log(email.current.value,password.current.value);
+    setErrorMsg(message);
+    
+  }
 
   const toggleClickForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -16,7 +26,7 @@ const Login = () => {
           alt="bg"
         />
       </div>
-      <form className="w-3/12 p-12 my-36 mx-auto right-0 left-0 absolute bg-black bg-opacity-70">
+      <form onSubmit={(e)=>{e.preventDefault()}} className="w-3/12 p-12 my-36 mx-auto right-0 left-0 absolute bg-black bg-opacity-70">
         <h1 className="text-white text-[2rem] font-bold">{isSignInForm ? "Sign In":"Sign Up"}</h1>
         {!isSignInForm && <input
           type="text"
@@ -24,16 +34,19 @@ const Login = () => {
           className="p-4 my-4 w-full bg-gray-600"
         />}
         <input
-          type="text"
+        ref={email}
+          type="email"
           placeholder="Email Address"
           className="p-4 my-4 w-full bg-gray-600"
         />
         <input
+        ref={password}
           type="password"
           placeholder="Password"
           className="p-4 my-4 w-full bg-gray-600"
         />
-        <button className="text-white p-2 my-4 w-full bg-red-600 rounded-lg">
+       <p className="text-[1rem] text-white">{errorMsg}</p>
+        <button onClick={handleBtnClick} className="text-white p-2 my-4 w-full bg-red-600 rounded-lg">
         {isSignInForm ? "Sign In":"Sign Up"}
         </button>
         <p className="text-white cursor-pointer" onClick={toggleClickForm}>
