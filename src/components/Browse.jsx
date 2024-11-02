@@ -9,7 +9,6 @@ const Browse = () => {
   const userStore=useSelector(store=>store.user);
   const loginHandler=()=>{
     signOut(auth).then(() => {
-        navigate("/")
     }).catch((error) => {
       navigate("/error")
     });
